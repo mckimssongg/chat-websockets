@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-(%w_5u+@7a(il3w2(t-^(do#2w1i48)wclr9m&h!$f53tdw_75
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,8 +38,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'channels',
+    'rest_framework',
     'api',
 ]
+
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -69,7 +80,22 @@ TEMPLATES = [
     },
 ]
 
+# FOR HTTP REQUESTS ONLY (NOT FOR WEBSOCKETS)
 WSGI_APPLICATION = 'core.wsgi.application'
+# FOR WEBSOCKETS (CHANNELS)
+ASGI_APPLICATION = 'core.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [
+                ('localhost', 6379),
+                ('127.0.0.1', 6379)
+            ],
+        }
+    }
+}
 
 
 # Database
