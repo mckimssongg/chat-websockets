@@ -1,7 +1,7 @@
 import React from "react";
 import Swal from "sweetalert2";
 
-const chatSocket = new WebSocket('ws://localhost:8000/ws/chat/test/');
+const chatSocket = new WebSocket('ws://127.0.0.1:8000/ws/chat/test/');
 
 console.log(chatSocket);
 function App() {
