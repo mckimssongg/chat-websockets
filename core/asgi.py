@@ -1,10 +1,13 @@
 import os
 
-from django.core.asgi import get_asgi_application
+
 # FOR WEBSOCKETS (CHANNELS)
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
-import api.routing
+from api.routing import websocket_urlpatterns as api_websocket_urlpatterns
+# FOR HTTP REQUESTS ONLY
+from django.core.asgi import get_asgi_application
+
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 
@@ -16,7 +19,7 @@ application = ProtocolTypeRouter({
     # FOR WEBSOCKETS (CHANNELS)
     'websocket': AuthMiddlewareStack(
         URLRouter(
-            api.routing.websocket_urlpatterns  # URLS FOR WEBSOCKETS (CHANNELS)
+            api_websocket_urlpatterns  # URLS FOR WEBSOCKETS (CHANNELS)
         )
     )
 })
